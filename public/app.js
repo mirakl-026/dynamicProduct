@@ -39,10 +39,14 @@ class DynamicProduct {
     }
 
     getVariant(propIndex, variantStr, box) {
-        if (this.productProps[propIndex] != null && this.productProps[propIndex].gen) {
-            let prop = this.productProps[propIndex];
-            for (let valueObj of prop.values) {
-                this.getVariant(propIndex+1, variantStr + ` p[${prop.name}] - [${valueObj.value},${valueObj.tax},${valueObj.measure}]`, box);
+        if (this.productProps[propIndex] != null) {
+            if (this.productProps[propIndex].gen === true) {
+                let prop = this.productProps[propIndex];
+                for (let valueObj of prop.values) {
+                    this.getVariant(propIndex+1, variantStr + ` p[${prop.name}] - [${valueObj.value},${valueObj.tax},${valueObj.measure}]`, box);
+                }
+            } else {
+                this.getVariant(propIndex+1, variantStr, box);
             }
         } else {
             box.push(variantStr);
